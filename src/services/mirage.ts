@@ -17,7 +17,7 @@ createServer({
                     createdAt: new Date('2021-02-12 09:00:00')
                 },
                 {
-                    id: 1,
+                    id: 2,
                     title: 'Costco',
                     amount: 150,
                     type: 'outcome',
