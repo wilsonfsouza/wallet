@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { api } from "../../services/api";
 import { Container } from "./styles";
+import { TableRow } from "./TableRow";
 
 export const TransactionsTable = () => {
     useEffect(() => {
@@ -20,18 +21,12 @@ export const TransactionsTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Website Development</td>
-                        <td className="income">$ 12,000.00</td>
-                        <td>Freelance</td>
-                        <td>4/30/2021</td>
-                    </tr>
-                    <tr>
-                        <td>Rent</td>
-                        <td className="outcome">- $ 1,000.00</td>
-                        <td>Home</td>
-                        <td>4/30/2021</td>
-                    </tr>
+                    <TableRow
+                        title="Website Development"
+                        amount="$ 12,000.00"
+                        category="Freelance"
+                        date="4/30/2021"
+                    />
                 </tbody>
             </table>
         </Container>
