@@ -1,6 +1,7 @@
 import { Dashboard } from './components/Dashboard';
 import { Header } from './components/Header';
 import { GlobalStyle } from './styles/global';
+import './services/mirage';
 
 function App() {
   return (
