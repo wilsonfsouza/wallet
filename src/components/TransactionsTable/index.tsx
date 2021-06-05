@@ -1,12 +1,50 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { api } from "../../services/api";
+import { formatAmount } from "../../utils/formatAmount";
+import { formatDate } from "../../utils/formatDate";
 import { Container } from "./styles";
 import { TableRow } from "./TableRow";
 
+type ResponseTransaction = {
+    id: number;
+    title: string;
+    amount: number;
+    type: 'income' | 'outcome';
+    category: string;
+    createdAt: Date;
+}
+
+type ApiTransactionsResponse = {
+    transactions: ResponseTransaction[]
+}
+
+type Transaction = {
+    id: number;
+    title: string;
+    amount: string;
+    type: 'income' | 'outcome';
+    category: string;
+    createdAt: string;
+}
+
 export const TransactionsTable = () => {
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+
     useEffect(() => {
-        api.get('/transactions')
-            .then(response => console.log(response.data));
+        api.get<ApiTransactionsResponse>('/transactions')
+            .then(response => {
+                const transactions = response.data.transactions
+
+                const formatedTransactions = transactions.map(transaction => {
+                    return {
+                        ...transaction,
+                        amount: formatAmount(transaction.amount),
+                        createdAt: formatDate(transaction.createdAt)
+                    }
+                });
+
+                setTransactions(formatedTransactions);
+            });
     }, []);
 
     return (
@@ -21,12 +59,16 @@ export const TransactionsTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <TableRow
-                        title="Website Development"
-                        amount="$ 12,000.00"
-                        category="Freelance"
-                        date="4/30/2021"
-                    />
+                    {transactions.map(transaction => (
+                        <TableRow
+                            key={transaction.id}
+                            title={transaction.title}
+                            amount={transaction.amount}
+                            type={transaction.type}
+                            category={transaction.category}
+                            date={transaction.createdAt}
+                        />
+                    ))}
                 </tbody>
             </table>
         </Container>
