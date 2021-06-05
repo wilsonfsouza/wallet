@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-import { darken } from 'polished';
+import { darken, transparentize } from 'polished';
 
 interface ContainerProps {
     transactionType: 'income' | 'outcome';
+    isActive: boolean;
 }
 
 const transactionTypeColors = {
@@ -14,8 +15,9 @@ export const Container = styled.button<ContainerProps>`
     height: 4rem;
     border: 1px solid var(--input-border);
     border-radius: 0.25rem;
-    background: transparent;
-
+    background: ${props => props.isActive
+        ? transparentize(0.9, transactionTypeColors[props.transactionType])
+        : 'transparent'};
     display: flex;
     align-items: center;
     justify-content: center;

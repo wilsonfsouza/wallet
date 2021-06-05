@@ -3,8 +3,9 @@ import { SubmitButton } from './SubmitButton';
 import { Input } from './Input';
 import { Container, TransactionTypeContainer } from './styles';
 import { CloseButton } from './CloseButton';
-import { TransactionTypeButton } from './TransactionTypeButton';
+import { RadioBox } from './RadioBox';
 import { FiArrowDownCircle, FiArrowUpCircle } from 'react-icons/fi';
+import { useState } from 'react';
 
 
 interface NewTransactionModalProps {
@@ -13,6 +14,8 @@ interface NewTransactionModalProps {
 }
 
 export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionModalProps) {
+    const [type, setType] = useState('income');
+
     return (
         <Modal
             isOpen={isOpen}
@@ -27,8 +30,18 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
                 <Input placeholder="Title" type="text" />
                 <Input placeholder="Amout" type="number" />
                 <TransactionTypeContainer>
-                    <TransactionTypeButton transactionType="income" icon={FiArrowUpCircle} />
-                    <TransactionTypeButton transactionType="outcome" icon={FiArrowDownCircle} />
+                    <RadioBox
+                        transactionType="income"
+                        icon={FiArrowUpCircle}
+                        onClick={() => setType('income')}
+                        isActive={type === 'income'}
+                    />
+                    <RadioBox
+                        transactionType="outcome"
+                        icon={FiArrowDownCircle}
+                        onClick={() => setType('outcome')}
+                        isActive={type === 'outcome'}
+                    />
                 </TransactionTypeContainer>
                 <Input placeholder="Category" type="text" />
                 <SubmitButton content="Create transaction" />
