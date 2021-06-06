@@ -6,7 +6,6 @@ import { CloseButton } from './CloseButton';
 import { RadioBox } from './RadioBox';
 import { FiArrowDownCircle, FiArrowUpCircle } from 'react-icons/fi';
 import { FormEvent, useContext, useState } from 'react';
-import { api } from '../../services/api';
 import { TransactionsContext } from '../../contexts/transactionsContext';
 
 interface NewTransactionModalProps {
