@@ -5,8 +5,9 @@ import { Container, TransactionTypeContainer } from './styles';
 import { CloseButton } from './CloseButton';
 import { RadioBox } from './RadioBox';
 import { FiArrowDownCircle, FiArrowUpCircle } from 'react-icons/fi';
-import { FormEvent, useState } from 'react';
-
+import { FormEvent, useContext, useState } from 'react';
+import { api } from '../../services/api';
+import { TransactionsContext } from '../../contexts/transactionsContext';
 
 interface NewTransactionModalProps {
     isOpen: boolean;
@@ -18,10 +19,26 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
     const [amount, setAmount] = useState(0);
     const [category, setCategory] = useState('');
 
-    const [type, setType] = useState('income');
+    const [type, setType] = useState<'income' | 'outcome'>('income');
 
-    function handleCreateNewTransaction(event: FormEvent) {
+    const { createTransaction } = useContext(TransactionsContext);
+
+    async function handleCreateNewTransaction(event: FormEvent) {
         event.preventDefault();
+
+        await createTransaction({
+            title,
+            amount,
+            category,
+            type
+        });
+
+        setTitle('');
+        setAmount(0);
+        setCategory('');
+        setType('income');
+
+        onRequestClose();
     }
 
     return (
@@ -35,8 +52,20 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
 
             <Container onSubmit={handleCreateNewTransaction}>
                 <h2>Create a new transaction</h2>
-                <Input placeholder="Title" type="text" />
-                <Input placeholder="Amout" type="number" />
+                <Input
+                    value={title}
+                    onChange={(event) => setTitle(event.target.value)}
+                    placeholder="Title"
+                    type="text"
+                />
+
+                <Input
+                    value={amount}
+                    onChange={(event) => setAmount(Number(event.target.value))}
+                    placeholder="Amout"
+                    type="number"
+                />
+
                 <TransactionTypeContainer>
                     <RadioBox
                         transactionType="income"
@@ -51,7 +80,14 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
                         isActive={type === 'outcome'}
                     />
                 </TransactionTypeContainer>
-                <Input placeholder="Category" type="text" />
+
+                <Input
+                    value={category}
+                    onChange={(event) => setCategory(event.target.value)}
+                    placeholder="Category"
+                    type="text"
+                />
+
                 <SubmitButton content="Create transaction" />
             </Container>
         </Modal>
