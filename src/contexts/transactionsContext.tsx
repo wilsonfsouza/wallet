@@ -1,6 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import { api } from '../services/api';
-import { formatAmount } from '../utils/formatAmount';
 import { formatDate } from '../utils/formatDate';
 
 type RawTransaction = {
@@ -15,7 +14,7 @@ type RawTransaction = {
 type Transaction = {
     id: number;
     title: string;
-    amount: string;
+    amount: number;
     type: 'income' | 'outcome';
     category: string;
     createdAt: string;
@@ -45,7 +44,6 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
                 const formatedTransactions = transactions.map(transaction => {
                     return {
                         ...transaction,
-                        amount: formatAmount(transaction.amount),
                         createdAt: formatDate(transaction.createdAt)
                     }
                 });
@@ -64,7 +62,6 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
 
         const formatedTransaction = {
             ...transaction,
-            amount: formatAmount(transaction.amount),
             createdAt: formatDate(transaction.createdAt)
         };
 
