@@ -6,7 +6,7 @@ import { CloseButton } from './CloseButton';
 import { RadioBox } from './RadioBox';
 import { FiArrowDownCircle, FiArrowUpCircle } from 'react-icons/fi';
 import { FormEvent, useContext, useState } from 'react';
-import { TransactionsContext } from '../../contexts/transactionsContext';
+import { useTransactions } from '../../hooks/useTransactions';
 
 interface NewTransactionModalProps {
     isOpen: boolean;
@@ -20,7 +20,7 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
 
     const [type, setType] = useState<'income' | 'outcome'>('income');
 
-    const { createTransaction } = useContext(TransactionsContext);
+    const { createTransaction } = useTransactions();
 
     async function handleCreateNewTransaction(event: FormEvent) {
         event.preventDefault();

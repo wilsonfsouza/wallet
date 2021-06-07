@@ -2,12 +2,12 @@ import { FiArrowDownCircle, FiArrowUpCircle } from 'react-icons/fi';
 import { BsWallet } from 'react-icons/bs';
 import { Card } from './Card';
 import { Container } from './styles';
-import { useContext, useMemo } from 'react';
-import { TransactionsContext } from '../../contexts/transactionsContext';
+import { useMemo } from 'react';
+import { useTransactions } from '../../hooks/useTransactions';
 import { formatAmount } from '../../utils/formatAmount';
 
 export const Summary = () => {
-    const { transactions } = useContext(TransactionsContext);
+    const { transactions } = useTransactions();
 
     const { income, outcome, total } = useMemo(() => {
         const accumulatedTransactions = transactions.reduce((acc, transaction) => {
