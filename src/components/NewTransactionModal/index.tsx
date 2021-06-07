@@ -5,7 +5,7 @@ import { Container, TransactionTypeContainer } from './styles';
 import { CloseButton } from './CloseButton';
 import { RadioBox } from './RadioBox';
 import { FiArrowDownCircle, FiArrowUpCircle } from 'react-icons/fi';
-import { FormEvent, useContext, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { useTransactions } from '../../hooks/useTransactions';
 
 interface NewTransactionModalProps {
