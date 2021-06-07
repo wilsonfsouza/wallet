@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { TransactionsContext } from "../../contexts/transactionsContext";
+import { formatAmount } from "../../utils/formatAmount";
 import { Container } from "./styles";
 import { TableRow } from "./TableRow";
 
@@ -22,7 +23,7 @@ export const TransactionsTable = () => {
                         <TableRow
                             key={transaction.id}
                             title={transaction.title}
-                            amount={transaction.amount}
+                            amount={formatAmount(transaction.amount)}
                             type={transaction.type}
                             category={transaction.category}
                             date={transaction.createdAt}
