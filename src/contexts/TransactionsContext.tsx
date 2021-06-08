@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { api } from '../services/api';
 import { formatDate } from '../utils/formatDate';
 import { createContext } from 'use-context-selector';
@@ -53,7 +53,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
             });
     }, []);
 
-    async function createTransaction(transactionInput: TransactionDTO) {
+    const createTransaction = useCallback(async (transactionInput: TransactionDTO) => {
         const response = await api.post<{ transaction: RawTransaction }>('/transactions', {
             ...transactionInput,
             createdAt: new Date()
@@ -67,7 +67,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
         };
 
         setTransactions(transactionsAvailable => [...transactionsAvailable, formatedTransaction]);
-    }
+    }, []);
 
     return (
         <TransactionsContext.Provider value={{
