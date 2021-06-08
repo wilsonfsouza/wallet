@@ -7,25 +7,22 @@ import { RadioBox } from './RadioBox';
 import { FiArrowDownCircle, FiArrowUpCircle } from 'react-icons/fi';
 import { FormEvent, useState } from 'react';
 import { useTransactions } from '../../hooks/useTransactions';
+import { useNewTransactionsModal } from '../../hooks/useNewTransactionsModal';
 
-interface NewTransactionModalProps {
-    isOpen: boolean;
-    onRequestClose: () => void;
-}
-
-export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionModalProps) {
+export function NewTransactionModal() {
     const [title, setTitle] = useState('');
     const [amount, setAmount] = useState(0);
     const [category, setCategory] = useState('');
 
     const [type, setType] = useState<'income' | 'outcome'>('income');
 
-    const { createTransaction } = useTransactions();
+    const { onCreateTransaction } = useTransactions();
+    const { isNewTransactionModalOpen, onCloseNewTransactionModal } = useNewTransactionsModal();
 
     async function handleCreateNewTransaction(event: FormEvent) {
         event.preventDefault();
 
-        await createTransaction({
+        await onCreateTransaction({
             title,
             amount,
             category,
@@ -37,17 +34,17 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
         setCategory('');
         setType('income');
 
-        onRequestClose();
+        onCloseNewTransactionModal();
     }
 
     return (
         <Modal
-            isOpen={isOpen}
-            onRequestClose={onRequestClose}
+            isOpen={isNewTransactionModalOpen}
+            onRequestClose={onCloseNewTransactionModal}
             overlayClassName="react-modal-overlay"
             className="react-modal-content"
         >
-            <CloseButton onClick={onRequestClose} />
+            <CloseButton onClick={onCloseNewTransactionModal} />
 
             <Container onSubmit={handleCreateNewTransaction}>
                 <h2>Create a new transaction</h2>
