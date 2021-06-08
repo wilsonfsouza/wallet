@@ -1,12 +1,12 @@
-import { useContext } from 'react';
 import { TransactionsContext } from '../contexts/TransactionsContext';
+import { useContextSelector } from 'use-context-selector';
 
 export function useTransactions() {
-    const context = useContext(TransactionsContext);
+    const transactions = useContextSelector(TransactionsContext, transactions => transactions.transactions);
+    const onCreateTransaction = useContextSelector(TransactionsContext, transactions => transactions.createTransaction);
 
-    if (!context) {
-        throw Error('useTransactions hook must be used within TransactionsContext.')
-    }
-
-    return context;
+    return {
+        transactions,
+        onCreateTransaction
+    };
 }
