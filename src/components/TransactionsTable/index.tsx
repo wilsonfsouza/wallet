@@ -1,12 +1,10 @@
-import { useEffect } from "react";
-import { api } from "../../services/api";
+import { useTransactions } from "../../hooks/useTransactions";
+import { formatAmount } from "../../utils/formatAmount";
 import { Container } from "./styles";
+import { TableRow } from "./TableRow";
 
 export const TransactionsTable = () => {
-    useEffect(() => {
-        api.get('/transactions')
-            .then(response => console.log(response.data));
-    }, []);
+    const { transactions } = useTransactions();
 
     return (
         <Container>
@@ -20,18 +18,16 @@ export const TransactionsTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Website Development</td>
-                        <td className="income">$ 12,000.00</td>
-                        <td>Freelance</td>
-                        <td>4/30/2021</td>
-                    </tr>
-                    <tr>
-                        <td>Rent</td>
-                        <td className="outcome">- $ 1,000.00</td>
-                        <td>Home</td>
-                        <td>4/30/2021</td>
-                    </tr>
+                    {transactions.map(transaction => (
+                        <TableRow
+                            key={transaction.id}
+                            title={transaction.title}
+                            amount={formatAmount(transaction.amount)}
+                            type={transaction.type}
+                            category={transaction.category}
+                            date={transaction.createdAt}
+                        />
+                    ))}
                 </tbody>
             </table>
         </Container>

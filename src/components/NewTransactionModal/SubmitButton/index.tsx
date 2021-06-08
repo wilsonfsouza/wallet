@@ -7,7 +7,7 @@ interface SubmitButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export function SubmitButton({ content }: SubmitButtonProps) {
     return (
-        <Button type="button">{content}</Button>
+        <Button type="submit">{content}</Button>
     );
 
 }
