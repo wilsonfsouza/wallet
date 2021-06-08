@@ -20,12 +20,12 @@ export function NewTransactionModal({ isOpen, onRequestClose }: NewTransactionMo
 
     const [type, setType] = useState<'income' | 'outcome'>('income');
 
-    const { createTransaction } = useTransactions();
+    const { onCreateTransaction } = useTransactions();
 
     async function handleCreateNewTransaction(event: FormEvent) {
         event.preventDefault();
 
-        await createTransaction({
+        await onCreateTransaction({
             title,
             amount,
             category,
