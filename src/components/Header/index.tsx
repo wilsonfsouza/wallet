@@ -1,11 +1,9 @@
 import LogoImg from '../../assets/logo.png';
+import { useNewTransactionsModal } from '../../hooks/useNewTransactionsModal';
 import { Container, Content } from './styles';
 
-interface HeaderProps {
-    onOpenNewTransactionModal: () => void;
-}
-
-export const Header = ({ onOpenNewTransactionModal }: HeaderProps) => {
+export const Header = () => {
+    const { onOpenNewTransactionModal } = useNewTransactionsModal();
     return (
         <Container>
             <Content>
