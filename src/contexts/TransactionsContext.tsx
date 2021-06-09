@@ -69,6 +69,19 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
         setTransactions(transactionsAvailable => [...transactionsAvailable, formatedTransaction]);
     }, []);
 
+    const editTransaction = useCallback(async (transactionInput: TransactionDTO) => {
+        const response = await api.put<{ transaction: RawTransaction }>('/transactions', transactionInput);
+
+        const { transaction } = response.data;
+
+        const formatedTransaction = {
+            ...transaction,
+            createdAt: formatDate(transaction.createdAt)
+        };
+
+        setTransactions(transactionsAvailable => [...transactionsAvailable, formatedTransaction]);
+    }, []);
+
     return (
         <TransactionsContext.Provider value={{
             transactions,
