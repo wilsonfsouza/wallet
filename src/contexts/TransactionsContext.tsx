@@ -69,7 +69,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
         setTransactions(transactionsAvailable => [...transactionsAvailable, formatedTransaction]);
     }, []);
 
-    const editTransaction = useCallback(async (transactionInput: TransactionDTO) => {
+    const editTransaction = useCallback(async (transactionInput: Transaction) => {
         const response = await api.put<{ transaction: RawTransaction }>('/transactions', transactionInput);
 
         const { transaction } = response.data;
@@ -79,7 +79,19 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
             createdAt: formatDate(transaction.createdAt)
         };
 
-        setTransactions(transactionsAvailable => [...transactionsAvailable, formatedTransaction]);
+        setTransactions(transactionsAvailable => {
+            const updatedTransactions = transactionsAvailable.filter(transaction => transaction.id === transactionInput.id)
+            return [...updatedTransactions, formatedTransaction]
+        });
+    }, []);
+
+    const deleteTransaction = useCallback(async (transactionInput: Transaction) => {
+        await api.delete<{ transaction: RawTransaction }>(`/transactions/${transactionInput.id}`);
+
+        setTransactions(transactionsAvailable => {
+            const updatedTransactions = transactionsAvailable.filter(transaction => transaction.id === transactionInput.id)
+            return updatedTransactions
+        });
     }, []);
 
     return (
