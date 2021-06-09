@@ -22,6 +22,11 @@ export const Container = styled.tr`
     }
 `;
 
+export const ActionButtonsContainer = styled.span`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+`;
+
 export const ActionButton = styled(Button)`
     padding: 0 1rem;
     height: 2rem;
