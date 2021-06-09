@@ -15,6 +15,7 @@ export const Container = styled.button<ContainerProps>`
 
     border: 0;
     font-size: 1rem;
+    font-weight: 600;
     color: #FFF;
     background: ${props => props.colorScheme ?? 'transparent'};
 
