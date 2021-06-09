@@ -25,7 +25,9 @@ type TransactionDTO = Omit<RawTransaction, 'id' | 'createdAt'>;
 
 type TransactionsContextData = {
     transactions: Transaction[];
-    createTransaction: (transaction: TransactionDTO) => Promise<void>
+    createTransaction: (transaction: TransactionDTO) => Promise<void>;
+    editTransaction: (transaction: Transaction) => Promise<void>;
+    deleteTransaction: (transaction: Transaction) => Promise<void>;
 }
 
 interface TransactionsProviderProps {
@@ -97,7 +99,9 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     return (
         <TransactionsContext.Provider value={{
             transactions,
-            createTransaction
+            createTransaction,
+            editTransaction,
+            deleteTransaction
         }}>
             {children}
         </TransactionsContext.Provider>
