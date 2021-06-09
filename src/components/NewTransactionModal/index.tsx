@@ -1,6 +1,6 @@
 import Modal from 'react-modal';
 import { SubmitButton } from './SubmitButton';
-import { Input } from './Input';
+import { Input } from '../Input';
 import { Container, TransactionTypeContainer } from './styles';
 import { CloseButton } from './CloseButton';
 import { RadioBox } from './RadioBox';
