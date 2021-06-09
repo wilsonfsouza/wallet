@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes } from "react";
-import { Button } from './styles';
+import { Container } from './styles';
 
 interface SubmitButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     content: string;
@@ -7,7 +7,7 @@ interface SubmitButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export function SubmitButton({ content }: SubmitButtonProps) {
     return (
-        <Button type="submit">{content}</Button>
+        <Container type="submit">{content}</Container>
     );
 
 }
