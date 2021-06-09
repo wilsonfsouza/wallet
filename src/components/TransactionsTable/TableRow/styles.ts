@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Button } from '../../Button';
 
 export const Container = styled.tr`
     td {
@@ -19,4 +20,9 @@ export const Container = styled.tr`
             color: var(--green);
         }
     }
+`;
+
+export const ActionButton = styled(Button)`
+    padding: 0 1rem;
+    height: 2rem;
 `;
