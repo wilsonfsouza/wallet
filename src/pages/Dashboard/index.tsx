@@ -1,5 +1,5 @@
-import { Summary } from '../Summary';
-import { TransactionsTable } from '../TransactionsTable';
+import { Summary } from '../../components/Summary';
+import { TransactionsTable } from '../../components/TransactionsTable';
 import { Container } from './styles';
 
 export const Dashboard = () => {
