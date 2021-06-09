@@ -1,6 +1,6 @@
 import LogoImg from '../../assets/logo.png';
 import { useNewTransactionsModal } from '../../hooks/useNewTransactionsModal';
-import { Container, Content } from './styles';
+import { Container, Content, NewTransactionButton } from './styles';
 
 export const Header = () => {
     const { onOpenNewTransactionModal } = useNewTransactionsModal();
@@ -8,7 +8,7 @@ export const Header = () => {
         <Container>
             <Content>
                 <img src={LogoImg} alt="digiWallet" />
-                <button type="button" onClick={onOpenNewTransactionModal}>New transaction</button>
+                <NewTransactionButton colorScheme="var(--light-purple)" onClick={onOpenNewTransactionModal}>New transaction</NewTransactionButton>
             </Content>
         </Container>
     );
