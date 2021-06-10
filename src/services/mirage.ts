@@ -40,5 +40,32 @@ createServer({
 
             return schema.create('transaction', data);
         })
+
+        this.put('/transactions/:id', (schema, request) => {
+            const id = request.params.id;
+            const data = JSON.parse(request.requestBody);
+
+            const transaction = schema.find('transaction', id);
+
+            if (!transaction) {
+                throw Error('Transaction not found.')
+            }
+
+            transaction.update(data);
+
+            return transaction;
+        })
+
+        this.delete('/transactions/:id', async (schema, request) => {
+            const id = request.params.id;
+
+            const transaction = schema.find('transaction', id);
+
+            if (!transaction) {
+                throw Error('Transaction not found.')
+            }
+
+            return transaction.destroy();
+        })
     }
 });
