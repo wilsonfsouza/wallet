@@ -72,7 +72,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     }, []);
 
     const editTransaction = useCallback(async (transactionInput: Transaction) => {
-        const response = await api.put<{ transaction: RawTransaction }>('/transactions', transactionInput);
+        const response = await api.put<{ transaction: RawTransaction }>(`/transactions/${transactionInput.id}`, transactionInput);
 
         const { transaction } = response.data;
 
