@@ -1,13 +1,13 @@
 import Modal from 'react-modal';
 import { SubmitButton } from './SubmitButton';
-import { Input } from '../Input';
+import { Input } from '../../Input';
 import { Container, TransactionTypeContainer } from './styles';
 import { CloseButton } from './CloseButton';
 import { RadioBox } from './RadioBox';
 import { FiArrowDownCircle, FiArrowUpCircle } from 'react-icons/fi';
 import { FormEvent, useState } from 'react';
-import { useTransactions } from '../../hooks/useTransactions';
-import { useNewTransactionsModal } from '../../hooks/useNewTransactionsModal';
+import { useTransactions } from '../../../hooks/useTransactions';
+import { useNewTransactionsModal } from '../../../hooks/useNewTransactionsModal';
 
 export function NewTransactionModal() {
     const [title, setTitle] = useState('');

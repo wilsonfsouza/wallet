@@ -2,7 +2,7 @@ import Modal from 'react-modal';
 import { Dashboard } from './pages/Dashboard';
 import { Header } from './components/Header';
 import { GlobalStyle } from './styles/global';
-import { NewTransactionModal } from './components/NewTransactionModal';
+import { NewTransactionModal } from './components/Modals/NewTransaction';
 import './services/mirage';
 import { TransactionsProvider } from './contexts/TransactionsContext';
 import { NewTransactionsModalProvider } from './contexts/NewTransactionsModalContext';
