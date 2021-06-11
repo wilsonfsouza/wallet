@@ -26,8 +26,8 @@ type TransactionDTO = Omit<RawTransaction, 'id' | 'createdAt'>;
 type TransactionsContextData = {
     transactions: Transaction[];
     createTransaction: (transaction: TransactionDTO) => Promise<void>;
-    editTransaction: (transaction: Transaction) => Promise<void>;
-    deleteTransaction: (transaction: Transaction) => Promise<void>;
+    editTransaction: (transaction: RawTransaction) => Promise<void>;
+    deleteTransaction: (id: number) => Promise<void>;
 }
 
 interface TransactionsProviderProps {
@@ -71,7 +71,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
         setTransactions(transactionsAvailable => [...transactionsAvailable, formatedTransaction]);
     }, []);
 
-    const editTransaction = useCallback(async (transactionInput: Transaction) => {
+    const editTransaction = useCallback(async (transactionInput: RawTransaction) => {
         const response = await api.put<{ transaction: RawTransaction }>(`/transactions/${transactionInput.id}`, transactionInput);
 
         const { transaction } = response.data;
@@ -87,11 +87,11 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
         });
     }, []);
 
-    const deleteTransaction = useCallback(async (transactionInput: Transaction) => {
-        await api.delete<{ transaction: RawTransaction }>(`/transactions/${transactionInput.id}`);
+    const deleteTransaction = useCallback(async (id: number) => {
+        await api.delete<{ transaction: RawTransaction }>(`/transactions/${id}`);
 
         setTransactions(transactionsAvailable => {
-            const updatedTransactions = transactionsAvailable.filter(transaction => transaction.id === transactionInput.id)
+            const updatedTransactions = transactionsAvailable.filter(transaction => transaction.id !== id)
             return updatedTransactions
         });
     }, []);
