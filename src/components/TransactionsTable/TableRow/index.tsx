@@ -1,9 +1,11 @@
+import { useCallback, useState } from 'react';
 import { RiPencilLine, RiDeleteBin2Fill } from 'react-icons/ri';
 import { useTransactions } from '../../../hooks/useTransactions';
 import { formatAmount } from '../../../utils/formatAmount';
+import { EditTransactionModal } from '../../Modals/EditTransaction';
 import { Container, ActionButton, ActionButtonsContainer } from './styles';
 
-interface Transaction2 {
+interface Transaction {
     id: number;
     title: string;
     amount: number;
@@ -13,7 +15,7 @@ interface Transaction2 {
 }
 
 interface TableRowProps {
-    transaction: Transaction2;
+    transaction: Transaction;
 }
 
 export function TableRow({ transaction }: TableRowProps) {
@@ -23,6 +25,19 @@ export function TableRow({ transaction }: TableRowProps) {
 
     const formatedAmount = formatAmount(amount);
 
+    const [isOpenEditTransactionModal, setIsOpenEditTransactionModal] = useState(false);
+
+    const onCloseEditTransactionModal = useCallback(() => {
+        setIsOpenEditTransactionModal(false);
+    }, []);
+
+    const [editTransaction, setEditTransaction] = useState<Transaction | null>(null);
+
+    function handleEditTransaction(transaction: Transaction) {
+        setEditTransaction(transaction);
+        setIsOpenEditTransactionModal(true);
+    }
+
     return (
         <Container>
             <td>{title}</td>
@@ -31,10 +46,13 @@ export function TableRow({ transaction }: TableRowProps) {
             <td>{createdAt}</td>
             <td>
                 <ActionButtonsContainer>
-                    <ActionButton colorScheme="var(--light-purple)" rightIcon={RiPencilLine}>Edit</ActionButton>
+                    <ActionButton colorScheme="var(--light-purple)" rightIcon={RiPencilLine} onClick={() => handleEditTransaction(transaction)}>Edit</ActionButton>
                     <ActionButton colorScheme="var(--red)" rightIcon={RiDeleteBin2Fill} onClick={() => onDeleteTransaction(id)}>Delete</ActionButton>
                 </ActionButtonsContainer>
             </td>
+            {editTransaction && (
+                <EditTransactionModal isOpen={isOpenEditTransactionModal} onClose={onCloseEditTransactionModal} transaction={editTransaction} />
+            )}
         </Container>
     );
 }
