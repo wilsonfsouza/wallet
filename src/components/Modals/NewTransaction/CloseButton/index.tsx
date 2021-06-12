@@ -1,6 +1,6 @@
 import { ButtonHTMLAttributes } from "react";
 import { Button } from './styles';
-import closeImg from '../../../assets/x.svg';
+import closeImg from '../../../../assets/x.svg';
 
 interface CloseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> { }
 
