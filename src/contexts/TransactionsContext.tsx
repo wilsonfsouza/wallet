@@ -2,6 +2,7 @@ import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { api } from '../services/api';
 import { formatDate } from '../utils/formatDate';
 import { createContext } from 'use-context-selector';
+import { parse } from 'date-fns'
 
 type RawTransaction = {
     id: number;
@@ -26,7 +27,7 @@ type TransactionDTO = Omit<RawTransaction, 'id' | 'createdAt'>;
 type TransactionsContextData = {
     transactions: Transaction[];
     createTransaction: (transaction: TransactionDTO) => Promise<void>;
-    editTransaction: (transaction: RawTransaction) => Promise<void>;
+    editTransaction: (transaction: Transaction) => Promise<void>;
     deleteTransaction: (id: number) => Promise<void>;
 }
 
@@ -71,7 +72,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
         setTransactions(transactionsAvailable => [...transactionsAvailable, formatedTransaction]);
     }, []);
 
-    const editTransaction = useCallback(async (transactionInput: RawTransaction) => {
+    const editTransaction = useCallback(async (transactionInput: Transaction) => {
         const response = await api.put<{ transaction: RawTransaction }>(`/transactions/${transactionInput.id}`, transactionInput);
 
         const { transaction } = response.data;
@@ -82,8 +83,15 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
         };
 
         setTransactions(transactionsAvailable => {
-            const updatedTransactions = transactionsAvailable.filter(transaction => transaction.id === transactionInput.id)
-            return [...updatedTransactions, formatedTransaction]
+            const oldTransactions = transactionsAvailable.filter(transaction => transaction.id !== transactionInput.id)
+            const updatedTransactions = [...oldTransactions, formatedTransaction]
+            const sortedByDateTransactions = updatedTransactions.sort((a, b) => {
+                const aTime = parse(a.createdAt, 'P', new Date()).getTime();
+                const bTime = parse(b.createdAt, 'P', new Date()).getTime();
+                return aTime - bTime;
+
+            });
+            return sortedByDateTransactions;
         });
     }, []);
 
